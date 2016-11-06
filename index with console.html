@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hangman</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var hangManWord=["a" ,"b","a","c"];
+			var maxTries = 5;
+			var wrongLetters = [];
+			var guess = [];
+			var answer = [];
+
+			//initally fill guess with underscores
+			for( var i=0; i < hangManWord.length; i++){
+				guess.push("_");
+			}
+			document.onkeyup = function(event) {
+			var inputChar = String.fromCharCode (event.keyCode).toLowerCase();
+		
+		if (isLetter(inputChar)){
+			console.log(inputChar);
+			var correctPositions = isInWord(inputChar, hangManWord);
+			console.log(correctPositions);
+			//fill in the correct blanks
+			answer = buildWord(guess,inputChar,correctPositions, hangManWord.length);
+			console.log(answer);
+			}
+			else {
+				console.log("Please Type a Letter");
+			}
+			
+		
+			
+			if (correctPositions == false){
+				wrongLetters.push(inputChar);
+				maxTries --;
+				console.log(wrongLetters,maxTries);
+				}
+			
+			
+			if (compare(hangManWord,answer) && maxTries > 0){
+				console.log("You Won");
+			}
+				else if (maxTries === 0){
+					console.log("You Lost");
+				}
+		}
+
+		//functions
+
+		function isLetter(c){
+			return c.length === 1 && c.match(/[a-z]/i);
+		}
+		function isInWord(c, string){
+			var positions = [];
+			var i = -1;
+			var found = false;
+				while((i=string.indexOf(c,i+1)) >= 0) {
+					found =true;
+					positions.push(i);
+				}
+				if ( found = false) {
+					return false;
+				}
+				return positions;
+		}
+		
+		function buildWord(resultSoFar,letter,positions, totalLen){
+			
+		//insert known letters
+			for( var i=0; i < positions.length; i++){
+				resultSoFar[positions[i]] = letter;
+			}
+			return resultSoFar;
+		}
+			
+		function compare(obj1,obj2){
+			var theSame = true;
+			for (var i=0; i<obj1.length; i++){
+				if (obj1[i] !== obj2[i]) {
+					theSame = false;
+				}
+				
+			}
+			return theSame;
+		}
+		
+		
+		
+		</script>
+	</body>
+</html>
