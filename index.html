@@ -3,9 +3,23 @@
 	<head>
 		<title>Hangman</title>
 	</head>
+	<style type="text/css">
+			div { 
+				margin-top: 15%;
+    			margin-left: 55%;
+    		}
+    		p {
+    		color: blue;
+    		font-size: xx-large;    		
+    		}
+    		body {
+    		background-image: url("assets/images/hangman.jpg");    			
+    		}
+		</style>
 	<body>
 		<div id="game">
 			<p>Press Any Key to Begin</p>
+			
 		</div>
 		
 		<script type="text/javascript">
@@ -17,10 +31,14 @@
 			var inputChar = "";
 			var wrongLettersDisplay = "";
 			var answerDisplay = "";
+			var dupBadLetter = true;
+			//hangManWord = prompt("enter the word);
 			//initally fill guess with underscores
 			for( var i=0; i < hangManWord.length; i++){
 				guess.push("_");
 			}
+			
+
 			document.onkeyup = function(event){
 				inputChar = String.fromCharCode (event.keyCode).toLowerCase();
 		
@@ -40,10 +58,16 @@
 			
 		
 			
+
+			
 			if (correctPositions == false){
-				wrongLetters.push(inputChar);
-				wrongLettersDisplay = toString(wrongLetters);
-				maxTries --;				
+				dupBadLetter = Boolean(isInWord(inputChar, wrongLetters));
+				if (dupBadLetter == false){
+
+						wrongLetters.push(inputChar);
+						wrongLettersDisplay = toString(wrongLetters);
+						maxTries --;		
+					}
 				}
 			
 			
@@ -85,9 +109,10 @@
 					found =true;
 					positions.push(i);
 				}
-				if ( found = false) {
+				if ( found === false) {
 					return false;
 				}
+				console.log(Boolean(positions), positions	);
 				return positions;
 		}
 
@@ -117,5 +142,6 @@
 		document.querySelector('#game').innerHTML = html;
 		}
 		</script>
+		
 	</body>
 </html>
